@@ -1,0 +1,362 @@
+import {
+  ConfigAppTransaction,
+  ConfigGatewayDns,
+  ConfigGatewayHelmet,
+  ConfigGatewayToken,
+  ConfigPino,
+  ConfigServiceCrisp,
+  ConfigServiceElactic,
+  ConfigServiceMailer,
+  ConfigServiceS3,
+  ConfigServiceStripe,
+  ConfigServiceTwilio,
+  ConfigSettings,
+  DeepPartial,
+  UserAccount,
+  getMoment,
+} from "@edmp/api";
+import { CookieSerializeOptions } from "cookie";
+import { BrokerOptions } from "moleculer";
+
+/**
+ * Config
+ */
+const configPino: DeepPartial<ConfigPino> = {
+  level: "info",
+  transport: {
+    target: "pino-pretty",
+    options: {
+      colorize: true,
+    },
+  },
+};
+
+// Config gateway
+const origin = ["http://localhost:8080", "http://localhost:8082"];
+const configGatewayDns: DeepPartial<ConfigGatewayDns> = {
+  url: "http://localhost:8080",
+  trustProxy: false, // Indispensable pour fonctionner sur CleverCloud, mais pas nécessairement ailleurs.
+};
+
+const configGatewayCookie: CookieSerializeOptions = {
+  secure: false,
+};
+
+const configGatewayToken: DeepPartial<ConfigGatewayToken> = {
+  audience: "edmp",
+  issuer: "https://ownily-rec.cleverapps.io/meta",
+  secret: "ownily-dev-effe7bae260ee52e292e306b0c98c06bd1ea543d",
+  cookieName: "edmp",
+  expiresIn: "30m",
+  maxAge: "1h",
+};
+
+const configGatewayHelmet: DeepPartial<ConfigGatewayHelmet> = {
+  contentSecurityPolicy: {
+    directives: {
+      connectSrc: [
+        "'self'",
+        "http://localhost:*",
+        "https://www.google-analytics.com",
+        "https://analytics.google.com",
+        "http://*.hotjar.com:*",
+        "https://*.hotjar.com:*",
+        "http://*.hotjar.io",
+        "https://*.hotjar.io",
+        "wss://*.hotjar.com",
+        "https://entreprise.data.gouv.fr/",
+        "https://*.cellar-c2.services.clever-cloud.com/",
+        "https://cellar-c2.services.clever-cloud.com/",
+        "https://*.crisp.chat",
+        "wss://client.relay.crisp.chat",
+      ],
+    },
+  },
+};
+
+// Config services
+const configServiceS3: DeepPartial<ConfigServiceS3> = {
+  host: "cellar-c2.services.clever-cloud.com",
+  bucket: "edmp-ci-fe225201fd3b35fe5a3deafc3d4c45d454b5a9d9",
+  key_id: "79HUYN62C7JLDPPVEB66",
+  key_secret: "eZwm1F722HOjbPHeewr6gci56Bln845t0Scn8ET4",
+};
+
+const configServiceElactic: DeepPartial<ConfigServiceElactic> = {
+  log: { active: false },
+  apm: {
+    //  active: true, // Set to true if you want to test it locally
+    serviceName: "ownily-dev",
+  },
+};
+
+const configServiceMailer: DeepPartial<ConfigServiceMailer> = {
+  SMTP: {
+    // Mail is not activate in DEV mode
+    // host: "mock", // Remove this line to active activate mailer in dev
+    // Logger for dev mode if you activate Mailing
+    logger: true, // Not in Production
+    debug: true, // Not in Production
+  },
+  defaults: {
+    from: "Ownily <contact@ownily.fr>",
+  },
+};
+
+const configServiceCrisp: DeepPartial<ConfigServiceCrisp> = {
+  identifier: "1855e93e-67bb-46a8-afbc-c89fca7a98aa",
+  key: "e1bb8ec85573785c6ee3788239461e751e6403b718cf8cf8b94c7cbb965df86c",
+  websiteId: "4ae182ab-76ad-4a8e-a524-364a57162566",
+};
+
+const configServiceStripe: DeepPartial<ConfigServiceStripe> = {
+  webhookKey: "whsec_56b4bf86c44dbfbbf56b741d99daa0396c7e97868172ff4954b5c17375296d76",
+  env: "dev",
+};
+
+const configServiceTwilio: DeepPartial<ConfigServiceTwilio> = {
+  accountSid: "AC9704208a63775b396d97e033678a3194",
+  authToken: "0e5d0fe8f5f6837c4735d259c2e04ed3",
+  phoneNumber: "+15809521564",
+};
+
+// Config app
+const configAppTransaction: DeepPartial<ConfigAppTransaction> = {
+  // Ces paramètres sont à copier depuis https://console.budget-insight.com/domains/ownily-sandbox.biapi.pro/client-applications
+  bi: {
+    landing: "http://localhost:8080/api/v1/bank/landings/bi",
+  },
+  // Liste de banques disponibles sur cet environement
+  banks: {
+    mock: {
+      id: "mock", // Name of provider
+      repository: "mock",
+      redirect_id: "landing.mock.redirect",
+      name: "Mock", // Label in front
+      logo: null,
+      iban: "FR1420041010050500013M02606",
+    },
+    mock3mois: {
+      id: "mock3mois", // Name of provider
+      repository: "mock",
+      redirect_id: "landing.mock.redirect",
+      name: "Transactions 3 derniers mois", // Label in front
+    },
+    mockNoTransactions: {
+      id: "mockNoTransactions", // Name of provider
+      repository: "mock",
+      redirect_id: "landing.mock.redirect",
+      name: "Pas de transactions", // Label in front
+    },
+  },
+  // Config des banks (provider)
+  mock: {
+    url: "http://localhost:8080/api/v1/bank/landings/mock",
+    transactions: [
+      {
+        id: 4012,
+        date: `${new Date().getFullYear()}-05-06`,
+        value: -456.78,
+        original_wording: "Chèque 7238227192",
+        type: "order",
+        deleted: false,
+      },
+      {
+        id: 4013,
+        date: `${new Date().getFullYear()}-05-08`,
+        value: 782.12,
+        original_wording: "VIR ADP JKAJS",
+        type: "order",
+        deleted: false,
+      },
+      {
+        id: 4014,
+        date: `${new Date().getFullYear() - 1}-11-06`,
+        value: -456.78,
+        original_wording: "Chèque 7238227192",
+        type: "order",
+        deleted: false,
+      },
+      {
+        id: 4015,
+        date: `${new Date().getFullYear() - 1}-11-08`,
+        value: 782.12,
+        original_wording: "VIR ADP JKAJS",
+        type: "order",
+        deleted: false,
+      },
+    ],
+  },
+  mock3mois: {
+    url: "http://localhost:8080/api/v1/bank/landings/mock",
+    transactions: [
+      {
+        // Transaction du 10 du mois courant
+        id: 3467,
+        date: getMoment().format("YYYY-MM-DD"),
+        value: 100,
+        original_wording: "Virement associé",
+        type: "unknown",
+        deleted: false,
+      },
+      {
+        // Transaction passée de 3 mois
+        id: 3466,
+        date: getMoment().subtract(3, "months").toISOString(),
+        value: -50,
+        original_wording: "Eau",
+        type: "unknown",
+        deleted: false,
+      },
+    ],
+  },
+  mockNoTransactions: {
+    url: "http://localhost:8080/api/v1/bank/landings/mock",
+    transactions: [],
+  },
+  landing: {
+    mock: {
+      redirect: "/#/signup/budget-insight/validate",
+    },
+  },
+};
+
+const configAppAdminUsers: DeepPartial<UserAccount[]> = [
+  { username: "ci", password: "testing123", scope: "support" },
+  { username: "ci2", password: "testing123", scope: "support" },
+  { username: "admin", password: "testing123", scope: "admin" },
+  {
+    username: "grafana",
+    password: "GJiu65jk578fgB976Rth97Rhghpyertydv79F697",
+    scope: "support",
+  },
+  {
+    username: "dylan",
+    password: "test",
+    scope: "support",
+  },
+];
+
+// Config moleculer
+const moleculerConfig: BrokerOptions | { $settings: DeepPartial<ConfigSettings> } = {
+  namespace: "ownily-dev",
+  $settings: {
+    pino: configPino,
+    gateway: {
+      origin: origin,
+      dns: configGatewayDns,
+      commit_sha: "dev",
+      cookie: configGatewayCookie,
+      token: configGatewayToken,
+      helmet: configGatewayHelmet,
+    },
+    services: {
+      mongo: "mongodb://127.0.0.1:27017/testing",
+      s3: configServiceS3,
+      elastic: configServiceElactic,
+      mailer: configServiceMailer,
+      crm: "mock",
+      // https://docs.crisp.chat/guides/rest-api/authentication/
+      crisp: configServiceCrisp,
+      stripe: configServiceStripe,
+      twilio: configServiceTwilio,
+    },
+    app: {
+      transaction: configAppTransaction,
+      adminUsers: configAppAdminUsers,
+    },
+  },
+  transporter: "redis://127.0.0.1:6379",
+  logger: {
+    type: "Console",
+    options: {
+      level: "trace",
+      colors: true,
+      moduleColors: true,
+      formatter: "short",
+      objectPrinter: null,
+      autoPadding: false,
+    },
+  },
+  logLevel: "trace",
+  cacher: {
+    type: "Redis",
+    options: {
+      // Redis settings
+      redis: "redis://127.0.0.1:6379",
+
+      // Turns Redis client monitoring on.
+      monitor: false,
+
+      // Prefix for keys
+      prefix: "CACHER",
+
+      // Set Time-to-live to 30sec. Disabled: 0 or null
+      ttl: 30,
+      // Deep-clone the returned value
+      clone: true,
+    },
+  },
+  metrics: {
+    enabled: false,
+    reporter: null,
+  },
+  tracing: {
+    enabled: true,
+    actions: true,
+    events: true,
+    stackTrace: true,
+    // Available built-in exporters: "Console", "Datadog", "Event", "EventLegacy", "Jaeger", "Zipkin"
+    exporter: {
+      type: "Console", // Console exporter is only for development!
+      options: {
+        // Logging level
+        level: "trace",
+        // Using colors
+        colors: true,
+        // Width of row
+        width: 80,
+        // Gauge width in the row
+        gaugeWidth: 30,
+      },
+    },
+    tags: {
+      action: {
+        params: true,
+        meta: [
+          "statusCode",
+          "user",
+          "rep.$service",
+          "rep.$ctx",
+          "rep.$route",
+          "reqHeaders.host",
+          "reqHeaders.origin",
+          "reqHeaders.referer",
+        ],
+        response: true,
+      },
+      event: {
+        params: true,
+        meta: [
+          "statusCode",
+          "user",
+          "event",
+          "rep._eventsCount",
+          "rep.$service",
+          "rep.$ctx",
+          "rep.$route",
+          "reqHeaders.host",
+          "reqHeaders.origin",
+          "reqHeaders.referer",
+        ],
+      },
+    },
+  },
+};
+
+export = {
+  /**
+   * Moleculer
+   */
+  moleculer: moleculerConfig,
+};

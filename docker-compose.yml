@@ -1,0 +1,64 @@
+version: "3"
+
+services:
+  ownily-dev-app:
+    container_name: ownily-dev_app
+    build:
+      context: ./
+      args:
+        COMMIT_SHA: "01d38597874125335fd62f91b339cd09d3b5de02" # Ajout du commit dans l'url /versions
+    image: ownily-dev-app:1.86.0
+    restart: always
+    depends_on:
+      - ownily-dev-mongo
+    environment:
+      NODE_CONFIG_ENV: "dev"
+      MONGODB_ADDON_URI: "mongodb://ownily-dev-mongo:27017/testing"
+      REDIS_URL: "redis://ownily-dev-redis:6379"
+      MIGRATE_MONGO: true
+      MIGRATE_MONGO_TYPE: 'up'
+    ports:
+      - 8080:8080
+      - 3030:3030
+      - 3031:3031
+      - 9001:9001
+      - 9216:9216
+      - 9121:9121
+    networks:
+      - ownily-dev
+
+  ownily-dev-redis:
+    container_name: ownily-dev_redis
+    image: redis:6.0.13-alpine
+    ports:
+      - 6379:6379
+    networks:
+      - ownily-dev
+
+  ownily-dev-mongo:
+    container_name: ownily-dev_mongo
+    image: mongo:4.0.3
+    volumes:
+      - './docker/data/mongo:/data/db'
+    ports:
+      - 27017:27017
+    networks:
+      - ownily-dev
+
+  ownily-dev-mongo-express:
+    container_name: ownily-dev_mongo-express
+    image: mongo-express
+    links:
+      - ownily-dev-mongo:mongo
+    depends_on:
+      - ownily-dev-mongo
+    ports:
+      - 8081:8081
+    networks:
+      - ownily-dev
+
+networks:
+  ownily-dev:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: br-ownily-dev

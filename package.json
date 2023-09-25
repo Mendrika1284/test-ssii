@@ -1,0 +1,31 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "yarn workspaces run lint",
+    "build": "yarn workspaces run build",
+    "clean": "rm -rf node_modules packages/*/node_modules yarn.lock packages/*/package-lock.json package-lock.json",
+    "api:lint": "yarn workspace @edmp/api run lint",
+    "back:lint": "yarn workspace @edmp/back run lint",
+    "front:lint": "yarn workspace @edmp/front run lint",
+    "back:test:unit": "yarn workspace @edmp/back run test:unit",
+    "pretty:check": "prettier --list-different \"**/*.{css,html,js,json,md,scss,ts}\"",
+    "pretty:fix": "prettier --write \"**/*.{css,js,html,json,md,scss,ts}\"",
+    "build:dev": "yarn workspaces run build:dev",
+    "front:start:dev": "yarn workspace @edmp/front run serve",
+    "back:start:dev": "yarn workspace @edmp/back run start:dev",
+    "back:start:docker:dev": "yarn workspace @edmp/back run stop:docker:dev && yarn workspace @edmp/back run start:docker:dev"
+  },
+  "resolutions": {
+    "swagger-stats/prom-client": "^13.1.0",
+    "ts-node": "10.9.1",
+    "typescript": "4.4.3",
+    "**/ajv-*/ajv": "8.11.2",
+    "**/@types/ajv-bsontype/ajv": "8.11.2",
+    "ajv@*": "8.11.2"
+  },
+  "devDependencies": {}
+}

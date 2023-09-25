@@ -1,0 +1,29 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "dist",
+    "target": "es6",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "declarationMap": false,
+    "composite": false,
+    "incremental": true,
+    "typeRoots": ["./src/@types", "./node_modules/@types", "../../node_modules/@types"],
+    "paths": {
+      "@/*": ["src/*"],
+      "@edmp/api": ["../api/src"]
+    }
+  },
+  "references": [{ "path": "../api", "prepend": false }],
+  "include": ["src"],
+  "exclude": ["./node_modules", "../../node_modules/", "dist"]
+}

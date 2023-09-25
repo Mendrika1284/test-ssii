@@ -1,0 +1,49 @@
+{
+  "name": "@edmp/api",
+  "version": "1.101.7",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "eslint . --ext .js,.ts",
+    "clean": "rm -rf ./dist && rm -rf tsconfig.tsbuildinfo",
+    "prebuild": "yarn clean",
+    "build": "tsc --build",
+    "build:dev": "yarn build"
+  },
+  "dependencies": {
+    "decimal.js-light": "2.5.1",
+    "lodash": "4.17.21",
+    "moment": "2.29.4",
+    "mongoose": "5.13.9",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "4.14.186",
+    "@types/uuid": "^9.0.2",
+    "eslint": "7.32.0",
+    "eslint-plugin-import": "2.25.1",
+    "eslint-plugin-prettier": "4.0.0",
+    "prettier": "2.7.1",
+    "typescript": "4.8.4"
+  },
+  "tslint": {
+    "extends": "../../tslint.json"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
+  },
+  "eslintIgnore": [
+    "dist/**/*.js"
+  ],
+  "prettier": {
+    "printWidth": 120
+  }
+}

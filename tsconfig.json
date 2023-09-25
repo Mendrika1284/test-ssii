@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "lib": ["es2018", "dom"],
+    "moduleResolution": "node",
+    "baseUrl": "./packages",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "paths": {
+      "@edmp/api/*": ["./api/src/*"],
+      "@edmp/front/*": ["./front/src/*"],
+      "@edmp/maxi/*": ["./maxi/src/*"]
+    }
+  },
+  "exclude": ["./node_modules"]
+}

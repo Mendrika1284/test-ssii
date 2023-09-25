@@ -1,0 +1,27 @@
+{
+  "user": {
+    "status": {
+      "confirmed": "Compte actif",
+      "pending": "Compte Ownily en cours de création",
+      "none": "Aucun compte Ownily créé par l'associé"
+    }
+  },
+  "email": {
+    "status": {
+      "confirmed": "Actif",
+      "pending": "En attente",
+      "waiting": "Inconnue",
+      "invalid": "Invalide"
+    },
+    "status-detail": {
+      "confirmed": "Valide",
+      "pending": "Votre email {msg} est en attente de validation de votre part.\nVérifiez votre messagerie y compris vos spams.",
+      "invalid": "Votre email {msg} est introuvable\n. Merci de le vérifier et le corriger."
+    }
+  },
+  "errors": {},
+
+  "support": {
+    "contact": "Contactez-nous via le tchat en bas à gauche ou via l'adresse mail contact@ownily.fr."
+  }
+}

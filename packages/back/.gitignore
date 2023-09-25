@@ -1,0 +1,7 @@
+node_modules/
+.nyc_output/
+tools/empty-s3.js
+/logger-ownily.log
+test/loic-classify.json
+test/loic-transactions.json
+**/config/local*.ts
