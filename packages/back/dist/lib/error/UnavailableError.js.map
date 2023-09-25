@@ -1,0 +1,1 @@
+{"version":3,"file":"UnavailableError.js","sourceRoot":"","sources":["../../../src/lib/error/UnavailableError.ts"],"names":[],"mappings":";;;AAAA,mCAAwC;AAExC;;GAEG;AACH,MAAa,gBAAiB,SAAQ,iBAAW;IAC/C,YAAY,OAAe,EAAE,IAAY,EAAE,OAAgC,EAAE;QAC3E,KAAK,CAAC,OAAO,EAAE,GAAG,EAAE,IAAI,EAAE,IAAI,CAAC,CAAC;IAClC,CAAC;CACF;AAJD,4CAIC"}

@@ -15,7 +15,7 @@ services:
       NODE_CONFIG_ENV: "dev"
       MONGODB_ADDON_URI: "mongodb://ownily-dev-mongo:27017/testing"
       REDIS_URL: "redis://ownily-dev-redis:6379"
-      MIGRATE_MONGO: true
+      MIGRATE_MONGO: 'true'
       MIGRATE_MONGO_TYPE: 'up'
     ports:
       - 8080:8080

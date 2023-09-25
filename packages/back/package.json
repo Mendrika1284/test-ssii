@@ -13,7 +13,7 @@
     "cp:resources": "ncp ./src/resources ./dist/resources",
     "clean": "rm -rf ./dist/* && rm -rf tsconfig.tsbuildinfo",
     "prebuild": "yarn clean",
-    "build": "tsc --build tsconfig.prod.json && yarn cp:resources",
+    "build": "tsc --build tsconfig.json && yarn cp:resources",
     "build:dev": "(cd ../api && yarn build:dev) && yarn prebuild && tsc --build && yarn cp:resources"
   },
   "dependencies": {

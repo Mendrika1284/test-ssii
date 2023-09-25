@@ -3,7 +3,7 @@
   "version": "1.101.7",
   "private": true,
   "scripts": {
-    "prepare": "[ \"$(uname)\" = \"Darwin\" ] && NODE_OPTIONS=\"--openssl-legacy-provider\";",
+    "prepare": "NODE_OPTIONS=\"--openssl-legacy-provider\";",
     "serve": "yarn prepare vue-cli-service serve --port 8082",
     "build": "yarn prepare vue-cli-service build --skip-plugins @vue/cli-plugin-eslint",
     "build:dev": "yarn build",

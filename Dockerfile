@@ -1,7 +1,7 @@
 ###
 # Build stage
 ###
-FROM node:16.17-alpine3.16 as build-stage
+FROM node:18.17.1-alpine3.18 as build-stage
 
 # Context
 WORKDIR /build
@@ -19,7 +19,7 @@ RUN yarn build
 ###
 # Run stage
 ###
-FROM node:16.17-alpine3.16 as run-stage
+FROM node:18.17.1-alpine3.18 as run-stage
 
 # Context
 WORKDIR /app
@@ -66,7 +66,7 @@ WORKDIR /app
 COPY --from=build-stage  /build/package.json ./
 COPY --from=build-stage  /build/yarn.lock ./
 COPY --from=build-stage  /build/docker/entrypoint.sh ./entrypoint.sh
-COPY --from=build-stage  /build/docker/supervisord.prod.conf /build/docker/supervisord.conf ./config/
+COPY --from=build-stage  /build/docker/supervisord.conf ./config/
 COPY --from=build-stage  /build/packages/api/dist ./packages/api/dist
 COPY --from=build-stage  /build/packages/api/package.json ./packages/api/
 COPY --from=build-stage  /build/packages/back/dist ./packages/back/dist

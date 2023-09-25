@@ -27,5 +27,8 @@
     "**/@types/ajv-bsontype/ajv": "8.11.2",
     "ajv@*": "8.11.2"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "dependencies": {
+    "@achrinza/node-ipc": "^10.1.9"
+  }
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"UserError.js","sourceRoot":"","sources":["../../../src/lib/error/UserError.ts"],"names":[],"mappings":";;;AAAA,mCAAsD;AAEtD;;GAEG;AACH,MAAa,SAAU,SAAQ,mBAAa;IAC1C,YAAY,OAAe,EAAE,KAAa,EAAE,IAAI,GAAG,EAAE;QACnD,KAAK,CAAC,OAAO,EAAE,gBAAU,EAAE,KAAK,EAAE,IAAI,CAAC,CAAC;IAC1C,CAAC;CACF;AAJD,8BAIC"}
